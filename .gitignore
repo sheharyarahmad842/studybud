@@ -162,38 +162,6 @@ cython_debug/
 
 # Media
 media/
-=======
-# Python
-*.pyc
-*~
-__pycache__
 
-# Database
-db.sqlite3
 
-# Static folder at project root
-/static/
 
-# Media folder
-/media/
-
-# macOS
-._*
-.DS_Store
-.fseventsd
-.Spotlight-V100
-
-# Windows
-Thumbs.db*
-ehthumbs*.db
-[Dd]esktop.ini
-$RECYCLE.BIN/
-
-# Visual Studio
-.vscode/
-.history/
-*.code-workspace
-
-# Environment variables
-.env
->>>>>>> origin/main
