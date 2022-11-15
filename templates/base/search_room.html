@@ -1,0 +1,27 @@
+{% extends '_main.html' %} 
+{% load static %}
+{% block title %}Rooms{% endblock title %} 
+
+
+{% block content %}
+    <h1 class='text-center mb-4'>Search Results: {{ room_list.count}} Room{{ room_list.count|pluralize}} available</h1>
+    {% for room in room_list %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <span>@{{ room.host.username }}</span>
+                <a href="{{ room.get_absolute_url }}">{{ room.name }}</a>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                {{ room.description }}
+                </p>
+                <small class='fw-bold'>{{ room.topic.name }}</small>
+            </div>
+        </div>
+    {% empty %}
+        <h3 class='fw-light'>Sorry, No rooms available</h3>
+        <a href="{% url 'base:home' %}" class='btn btn-outline-info'>Back to Home</a>
+    {% endfor %}
+
+{% endblock content %}
+
