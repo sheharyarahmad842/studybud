@@ -1,8 +1,7 @@
 {% extends '_main.html' %}
 {% load static %}
 
-
-{% block title %}Create Room{% endblock title %}
+{% block title %}{% if update %}Update{% else %}Create{%endif%} Room{% endblock title %}
 
 {% block content %}
 
