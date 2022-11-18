@@ -9,10 +9,12 @@ class RoomSerializer(serializers.ModelSerializer):
     messages = serializers.HyperlinkedRelatedField(
         many=True, view_name="api:message_detail", read_only=True
     )
+    host = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Room
         fields = [
+            "id",
             "host",
             "topic",
             "name",
@@ -39,13 +41,27 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         view_name="api:room_detail",
         read_only=True,
     )
+    topics = serializers.HyperlinkedRelatedField(
+        many=True,
+        view_name="api:topic_detail",
+        read_only=True,
+    )
     messages = serializers.HyperlinkedRelatedField(
         many=True, view_name="api:message_detail", read_only=True
     )
 
     class Meta:
         model = get_user_model()
-        fields = ["id", "username", "email", "bio", "rooms", "messages", "avatar"]
+        fields = [
+            "id",
+            "username",
+            "email",
+            "bio",
+            "rooms",
+            "topics",
+            "messages",
+            "avatar",
+        ]
 
 
 class TopicSerializer(serializers.HyperlinkedModelSerializer):
@@ -53,10 +69,15 @@ class TopicSerializer(serializers.HyperlinkedModelSerializer):
     rooms = serializers.HyperlinkedRelatedField(
         many=True, read_only=True, view_name="api:room_detail"
     )
+    host = serializers.PrimaryKeyRelatedField(
+        source="host.username", read_only=True, many=False
+    )
+    # Hide the host field in form and set to default user
+    host = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Topic
-        fields = ["name", "total_rooms", "rooms"]
+        fields = ["id", "name", "total_rooms", "rooms", "host"]
 
     def get_total_rooms(self, topic):
         return topic.rooms.count()
@@ -65,7 +86,7 @@ class TopicSerializer(serializers.HyperlinkedModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ["user", "room", "body", "created_on"]
+        fields = ["id", "user", "room", "body", "created_on"]
 
     def to_representation(self, instance):
         rep = super(MessageSerializer, self).to_representation(instance)

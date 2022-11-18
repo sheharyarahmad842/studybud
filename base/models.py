@@ -5,6 +5,9 @@ from django.urls import reverse
 
 
 class Topic(models.Model):
+    host = models.ForeignKey(
+        get_user_model(), on_delete=models.SET_NULL, null=True, related_name="topics"
+    )
     name = models.CharField(max_length=200)
 
     def __str__(self):
