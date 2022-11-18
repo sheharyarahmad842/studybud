@@ -1,10 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.decorators import login_required
 from django.views.generic import View, ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.postgres.search import SearchVector
 from django.urls import reverse_lazy
-from django.db.models import Q
 from .models import Room, Topic, Message
 from .forms import RoomForm, MessageForm
 
@@ -16,41 +15,18 @@ class RoomListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
-        if query == None:
-            queryset = Room.objects.all()
+        if query:
+            return Room.objects.annotate(
+                search=SearchVector("topic__name", "host__username"),
+            ).filter(search=query)
         else:
-            queryset = Room.objects.filter(
-                Q(topic__name__icontains=query) | Q(host__username__icontains=query)
-            )
-        return queryset
+            return Room.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["topic_list"] = Topic.objects.all()[0:5]
         context["room_messages"] = Message.objects.all()
         return context
-
-
-# @login_required(login_url="account_login")
-# def room_detail_view(request, slug):
-#     room = get_object_or_404(Room, slug=slug)
-#     messages = Message.objects.filter(room=room)
-#     participants = room.participants.all()
-#     form = MessageForm()
-
-#     if request.method == "POST":
-#         message = Message.objects.create(
-#             user=request.user, room=room, body=request.POST.get("body")
-#         )
-#         room.participants.add(request.user)
-
-#     context = {
-#         "room": room,
-#         "form": form,
-#         "messages": messages,
-#         "participants": participants,
-#     }
-#     return render(request, "base/room_detail.html", context)
 
 
 class RoomDetailView(LoginRequiredMixin, View):
@@ -154,10 +130,10 @@ class TopicListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
-        if query == None:
-            queryset = Topic.objects.all()
-        else:
+        if query:
             queryset = Topic.objects.filter(name__icontains=query)
+        else:
+            queryset = Topic.objects.all()
         return queryset
 
 

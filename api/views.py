@@ -1,5 +1,6 @@
-from django.db.models import Q
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.search import SearchVector
+
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -40,12 +41,12 @@ class RoomList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        query = self.request.GET.get("query")
+        query = self.request.GET.get("q")
         if query:
             try:
-                return Room.objects.filter(
-                    Q(topic__name__icontains=query) | Q(name__icontains=query)
-                )
+                return Room.objects.annotate(
+                    search=SearchVector("topic__name", "name")
+                ).filter(search=query)
             except Room.DoesNotExist:
                 pass
         else:
@@ -77,7 +78,7 @@ class TopicList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        query = self.request.GET.get("query")
+        query = self.request.GET.get("q")
         if query:
             try:
                 return Topic.objects.filter(name__icontains=query)

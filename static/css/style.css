@@ -131,6 +131,27 @@ a {
   cursor: pointer;
 }
 
+.comment-button {
+  background-color: var(--darkreader-bg--color-main);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+  padding: 1rem 1rem;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  margin-right: 10px;
+  margin-top: 5px;
+  float: right;
+}
+
+.comment-button:hover {
+  opacity: 0.9;
+}
+
 .avatar {
   position: relative;
   display: inline-block;
@@ -387,6 +408,10 @@ a {
 
 .margin_bottom {
   margin-bottom: 2px;
+}
+
+.margin_top {
+  margin-top: 2px;
 }
 
 /*==============================
@@ -1125,6 +1150,7 @@ a {
   font-size: 1.4rem;
   font-weight: 500;
   position: relative;
+  margin-bottom: 5px;
 }
 
 .room__message > form > input::placeholder {

@@ -1,6 +1,6 @@
 {% extends '_main.html' %}
 {% load static %}
-{% block title %}{{ room.slug }}{% endblock title %}
+{% block title %}{{ room.name }}{% endblock title %}
 {% block content %}
     
   <main class="profile-page layout layout--2">
@@ -119,6 +119,7 @@
           <form action="" method='POST'>
             {% csrf_token %}
             {{ form.body }}
+            <button type="submit" class="comment-button" style={"padding-top: 2px"}>Comment</button>
           </form>
         </div>
       </div>
