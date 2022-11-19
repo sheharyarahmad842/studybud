@@ -4,7 +4,9 @@
 
 
 {% block content %}
-    <h1 class='text-center mb-4'>Search Results: {{ room_list.count}} Room{{ room_list.count|pluralize}} available</h1>
+    {% with total_rooms=room_list.count %}
+    <h1 class='text-center mb-4'>Search Results: {{ total_rooms }} Room{{ total_rooms|pluralize}} available</h1>
+    {% endwith %}
     {% for room in room_list %}
         <div class="card mb-4">
             <div class="card-header">

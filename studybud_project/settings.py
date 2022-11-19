@@ -33,10 +33,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.postgres",
-    # Local
-    "users.apps.UsersConfig",
-    "base.apps.BaseConfig",
-    "api.apps.ApiConfig",
     # Third Party
     "allauth",
     "allauth.account",
@@ -46,6 +42,11 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.facebook",
     "rest_framework",
     "corsheaders",
+    "debug_toolbar",
+    # Local
+    "users.apps.UsersConfig",
+    "base.apps.BaseConfig",
+    "api.apps.ApiConfig",
 ]
 
 # Social Account Providers
@@ -110,6 +111,8 @@ ACCOUNT_SESSION_REMEMBER = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 MIDDLEWARE = [
+    # Debug toolbar middleware
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     # Cors headers middleware
@@ -224,3 +227,13 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+
+# Django debug toolbar configuration for docker
+if DEBUG:
+    import socket  # only if you haven't already imported this
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]

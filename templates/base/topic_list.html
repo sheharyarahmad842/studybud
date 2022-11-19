@@ -36,11 +36,15 @@
 
           <ul class="topics__list">
             <li>
-              <a href="{% url 'base:topic_list' %}" class="active">All <span>{{ topic_list.count }}</span></a>
+              {% with total_topics=topic_list.count %}
+              <a href="{% url 'base:topic_list' %}" class="active">All <span>{{ total_topics }}</span></a>
+              {% endwith %}
             </li>
             {% for topic in topic_list %}
               <li>
-                  <a href="{% url 'base:index' %}?q={{topic.name}}">{{ topic.name }} <span>{{ topic.rooms.count }}</span></a>
+                {% with topics=topic.room.count %}
+                  <a href="{% url 'base:index' %}?q={{topic.name}}">{{ topic.name }} <span>{{ topics }}</span></a>
+                {% endwith %}
               </li>
             {% endfor %}
           </ul>

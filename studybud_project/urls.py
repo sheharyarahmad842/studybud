@@ -8,6 +8,7 @@ from api.views import MyTokenObtainPairView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
     path("accounts/", include("allauth.urls")),
     path("profile/", include("users.urls")),
     path("api/token/", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
