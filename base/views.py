@@ -12,6 +12,7 @@ class RoomListView(ListView):
     model = Room
     template_name = "base/index.html"
     context_object_name = "room_list"
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")

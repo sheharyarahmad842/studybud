@@ -426,6 +426,7 @@ a {
 
 .layout {
   margin-top: 2.4rem;
+  margin-bottom: 1rem;
 }
 
 .layout > .container {
@@ -1199,3 +1200,45 @@ a {
   color: var(--color-main);
   font-weight: 1.4rem;
 }
+
+
+/* Pagination Components */
+
+#wrapper {
+  margin: 0 auto;
+  display: block;
+  width: 960px;
+  padding-bottom: 20px;
+}
+
+#pagination {
+  margin: 0;
+  padding: 0;
+  text-align: center
+}
+#pagination li {
+  display: inline
+}
+#pagination li a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px 10px;
+  color: #000
+}
+
+/* Active and Hoverable Pagination */
+#pagination li a {
+  border-radius: 5px;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s
+    
+}
+#pagination li a.active {
+  background-color: #3f4156;
+  color: #fff
+}
+#pagination li a:hover:not(.active) {
+  background-color: #ddd;
+} 
+
+
