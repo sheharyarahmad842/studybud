@@ -1,8 +1,8 @@
-{% extends '_main.html' %}
+{% extends 'account/base.html' %}
 {% load socialaccount %}
 {% providers_media_js %}
 
-{% block title %}Login{% endblock title %}
+{% block head_title %}Login{% endblock head_title %}
 
 {% block content %}
 
@@ -44,7 +44,7 @@
               </svg>
               Login
             </button>
-            <a href="#" style="float:right; padding-top: 10px;">Forgot Password?</a>
+            <a href="{% url 'account_reset_password' %}" style="float:right; padding-top: 10px;">Forgot Password?</a>
           </form>
 
 
@@ -52,7 +52,7 @@
             <p>Haven't signed up yet?</p>
             <a href="{% url 'account_signup' %}" class="btn btn--link margin_bottom">Sign Up</a>
             <p class="margin_bottom">or sign up with:</p>
-            <a class="btn btn-link btn-floating mx-1" href="{% provider_login_url "facebook" method="js_sdk" %}">
+            <a class="btn btn-link btn-floating mx-1" href="{% provider_login_url "facebook" %}">
               <i class="fab fa-facebook-f"></i>
             </a>
             <a class="btn btn-link btn-floating mx-1" href="{% provider_login_url 'google' %}">

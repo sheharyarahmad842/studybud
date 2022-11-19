@@ -69,6 +69,12 @@ a {
   margin: auto;
 }
 
+.text-center {
+  text-align: center; 
+  font-size: 2em; 
+  margin-top: 5px; 
+  margin-bottom: 5px;
+}
 .btn {
   background-color: transparent;
   border: none;
@@ -95,7 +101,7 @@ a {
 }
 
 .btn--main {
-  background-color: var(--color-main);
+  background-color: var(--darkreader-bg--color-main);
   color: var(--color-dark);
 }
 

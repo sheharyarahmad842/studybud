@@ -33,6 +33,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.postgres",
+    # Local
+    "users.apps.UsersConfig",
+    "base.apps.BaseConfig",
+    "api.apps.ApiConfig",
     # Third Party
     "allauth",
     "allauth.account",
@@ -42,10 +46,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.facebook",
     "rest_framework",
     "corsheaders",
-    # Local
-    "users.apps.UsersConfig",
-    "base.apps.BaseConfig",
-    "api.apps.ApiConfig",
 ]
 
 # Social Account Providers
@@ -97,8 +97,7 @@ AUTHENTICATION_BACKENDS = [
 
 # Authentication Configurations
 
-SITE_ID = 2
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+SITE_ID = 1
 LOGIN_REDIRECT_URL = "base:index"
 ACCOUNT_LOGOUT_REDIRECT_URL = "base:index"
 ACCOUNT_LOGOUT_ON_GET = True
@@ -217,3 +216,11 @@ REST_FRAMEWORK = {
 
 # Cors Headers Configuration
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Smtp Configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")

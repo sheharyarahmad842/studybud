@@ -23,3 +23,4 @@ urllib3==1.26.12
 psycopg2-binary==2.9.5
 django-cors-headers==3.13.0
 djangorestframework-simplejwt==5.2.2
+django-crispy-forms==1.14.0
