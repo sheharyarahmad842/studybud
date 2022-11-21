@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from api.views import MyTokenObtainPairView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("shery-phantom-admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
     path("accounts/", include("allauth.urls")),
     path("profile/", include("users.urls")),
