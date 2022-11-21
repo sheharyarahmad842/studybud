@@ -6,7 +6,6 @@ from base.views import (
     RoomCreateView,
     RoomUpdateView,
     RoomDeleteView,
-    MessageUpdateView,
     MessageDeleteView,
     TopicListView,
     MessageListView,
@@ -33,10 +32,6 @@ class TestUrls(SimpleTestCase):
     def test_room_delete_url_resolves(self):
         url = reverse("base:room_delete", args=["my-room"])
         self.assertEqual(resolve(url).func.view_class, RoomDeleteView)
-
-    def test_message_update_url_resolves(self):
-        url = reverse("base:message_update", args=[1])
-        self.assertEqual(resolve(url).func.view_class, MessageUpdateView)
 
     def test_message_delete_url_resolves(self):
         url = reverse("base:message_delete", args=[1])

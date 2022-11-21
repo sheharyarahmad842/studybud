@@ -57,7 +57,6 @@ class RoomDetailView(LoginRequiredMixin, View):
 class RoomCreateView(LoginRequiredMixin, CreateView):
     form_class = RoomForm
     template_name = "base/room_form.html"
-    success_url = reverse_lazy("base:index")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,7 +78,7 @@ class RoomCreateView(LoginRequiredMixin, CreateView):
 class RoomUpdateView(LoginRequiredMixin, UpdateView):
     model = Room
     fields = ("topic", "name", "description")
-    template_name = "base/room_form.html"
+    template_name = "base/room_update.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,15 +103,6 @@ class RoomDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "base/room_delete.html"
     context_object_name = "room"
     success_url = reverse_lazy("base:index")
-
-
-class MessageUpdateView(LoginRequiredMixin, UpdateView):
-    model = Message
-    fields = ("body",)
-    template_name = "base/message_update.html"
-
-    def get_success_url(self, *args, **kwargs):
-        return reverse_lazy("base:room_detail", kwargs={"slug": self.object.room.slug})
 
 
 class MessageDeleteView(LoginRequiredMixin, DeleteView):

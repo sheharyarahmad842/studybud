@@ -1,12 +1,10 @@
 from django.urls import path
 from .views import (
-    # HomePageView,
     RoomListView,
     RoomDetailView,
     RoomCreateView,
     RoomUpdateView,
     RoomDeleteView,
-    MessageUpdateView,
     MessageDeleteView,
     TopicListView,
     MessageListView,
@@ -20,9 +18,6 @@ urlpatterns = [
     path("create_room/", RoomCreateView.as_view(), name="room_create"),
     path("<slug:slug>/update/", RoomUpdateView.as_view(), name="room_update"),
     path("<slug:slug>/delete/", RoomDeleteView.as_view(), name="room_delete"),
-    path(
-        "message/update/<int:pk>/", MessageUpdateView.as_view(), name="message_update"
-    ),
     path(
         "message/delete/<int:pk>/", MessageDeleteView.as_view(), name="message_delete"
     ),
