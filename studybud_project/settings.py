@@ -21,7 +21,6 @@ DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = ["phantom-social-app.herokuapp.com", "localhost", "127.0.0.1"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
