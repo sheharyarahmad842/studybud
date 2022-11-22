@@ -4,8 +4,8 @@ setup:
 build:
  docker:
   web: Dockerfile
-  config:
-    DJANGO_SETTINGS_MODULE: studybud_project.settings
+ config:
+  DJANGO_SETTINGS_MODULE: studybud_project.settings
 run:
  web: gunicorn studybud_project.wsgi
 release:
