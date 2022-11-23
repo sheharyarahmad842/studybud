@@ -1,8 +1,10 @@
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View, ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchVector
+from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from .models import Room, Topic, Message
 from .forms import RoomForm, MessageForm
@@ -25,7 +27,9 @@ class RoomListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["topic_list"] = Topic.objects.all()[0:5]
+        context["topic_list"] = Topic.objects.annotate(
+            total_rooms=Count("rooms")
+        ).order_by("-total_rooms")[0:5]
         context["room_messages"] = Message.objects.all()
         return context
 
@@ -58,14 +62,9 @@ class RoomCreateView(LoginRequiredMixin, CreateView):
     form_class = RoomForm
     template_name = "base/room_form.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["topic_list"] = Topic.objects.all()
-        return context
-
     def post(self, request, *args, **kwargs):
         super(RoomCreateView, self).post(request, *args, **kwargs)
-        topic_name = request.POST.get("topic")
+        topic_name = request.POST.get("topic").capitalize()
         topic, created = Topic.objects.get_or_create(name=topic_name)
         name = request.POST.get("name")
         description = request.POST.get("description")
@@ -82,17 +81,24 @@ class RoomUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["room"] = self.object
+        context["form"] = RoomForm(
+            data={
+                "topic": self.object.topic.name,
+                "name": self.object.name,
+                "description": self.object.description,
+            }
+        )
         context["update"] = True
         return context
 
     def post(self, request, *args, **kwargs):
         super(RoomUpdateView, self).post(request, *args, **kwargs)
         room = self.object
-        topic_name = request.POST.get("topic")
+        topic_name = request.POST.get("topic").capitalize()
         topic, created = Topic.objects.get_or_create(name=topic_name)
         room.name = request.POST.get("name")
         room.topic = topic
+        room.slug = slugify(room.name)
         room.description = request.POST.get("description")
         room.save()
         return redirect(self.object.get_absolute_url())
@@ -122,9 +128,15 @@ class TopicListView(LoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
         if query:
-            queryset = Topic.objects.filter(name__icontains=query)
+            queryset = (
+                Topic.objects.filter(name__icontains=query)
+                .annotate(total_rooms=Count("rooms"))
+                .order_by("-total_rooms", "-added_on")
+            )
         else:
-            queryset = Topic.objects.all()
+            queryset = Topic.objects.annotate(total_rooms=Count("rooms")).order_by(
+                "-total_rooms", "-added_on"
+            )
         return queryset
 
 

@@ -10,6 +10,7 @@ class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = ("topic", "name", "description")
+        widgets = {"topic": forms.TextInput}
 
 
 class MessageForm(forms.ModelForm):

@@ -1,3 +1,5 @@
+{% load base_extras %}
+
 <div class="topics">
     <div class="topics__header">
       <h2>Browse Topics</h2>
@@ -10,9 +12,9 @@
       </li>
       {% for topic in topic_list %}
         <li>
-          {% with topics=topic.rooms.count %}
-            <a href="{% url 'base:index' %}?q={{ topic.name }}">{{ topic.name }} <span>{{ topics }}</span></a>
-          {% endwith %}
+          {% comment %} {% with topics=topic.total_rooms %} {% endcomment %}
+            <a href="{% url 'base:index' %}?q={{ topic.name }}">{{ topic.name }} <span>{{ topic_list|index:forloop.counter0|get_item }}</span></a>
+          {% comment %} {% endwith %} {% endcomment %}
         </li>
       {% endfor %}
     </ul>

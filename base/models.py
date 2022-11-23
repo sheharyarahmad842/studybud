@@ -5,10 +5,8 @@ from django.urls import reverse
 
 
 class Topic(models.Model):
-    host = models.ForeignKey(
-        get_user_model(), on_delete=models.SET_NULL, null=True, related_name="topics"
-    )
     name = models.CharField(max_length=200)
+    added_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -39,7 +37,7 @@ class Room(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-            return super(Room, self).save(*args, **kwargs)
+        return super(Room, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("base:room_detail", kwargs={"slug": self.slug})

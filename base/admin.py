@@ -11,8 +11,10 @@ class TopicAdmin(admin.ModelAdmin):
         RoomInline,
     ]
 
+
 class MessageInline(admin.StackedInline):
     model = Message
+
 
 class RoomAdmin(admin.ModelAdmin):
     inlines = [

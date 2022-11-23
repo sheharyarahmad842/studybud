@@ -26,15 +26,8 @@
             {% csrf_token %}
             
             <div class="form__group">
-              <label for="room_topic">Topic</label>
-              <input required type="text" value="{{ room.topic.name }}" name="topic" id="room_topic" list="topic-list" />
-              <datalist id="topic-list">
-                <select id="room_topic">
-                  {% for topic in topic_list %}
-                  <option value="{{ topic.name }}">{{ topic.name }}</option>
-                  {% endfor %}
-                </select>
-              </datalist>
+              <label for="room_name">Topic</label>
+              {{ form.topic }}
             </div>
 
             <div class="form__group">
@@ -57,4 +50,4 @@
   </main>
 
 {% endblock content %}
-
+ 
