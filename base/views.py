@@ -10,6 +10,26 @@ from .models import Room, Topic, Message
 from .forms import RoomForm, MessageForm
 
 
+class TopicListView(LoginRequiredMixin, ListView):
+    model = Topic
+    template_name = "base/topic_list.html"
+    context_object_name = "topic_list"
+
+    def get_queryset(self, *args, **kwargs):
+        query = self.request.GET.get("q")
+        if query:
+            queryset = (
+                Topic.objects.filter(name__icontains=query)
+                .annotate(total_rooms=Count("rooms"))
+                .order_by("-total_rooms", "-added_on")
+            )
+        else:
+            queryset = Topic.objects.annotate(total_rooms=Count("rooms")).order_by(
+                "-total_rooms", "-added_on"
+            )
+        return queryset
+
+
 class RoomListView(ListView):
     model = Room
     template_name = "base/index.html"
@@ -20,7 +40,7 @@ class RoomListView(ListView):
         query = self.request.GET.get("q")
         if query:
             return Room.objects.annotate(
-                search=SearchVector("topic__name", "host__username"),
+                search=SearchVector("topic__name", "host__username", "name"),
             ).filter(search=query)
         else:
             return Room.objects.all()
@@ -111,6 +131,32 @@ class RoomDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("base:index")
 
 
+class MessageListView(LoginRequiredMixin, ListView):
+    model = Message
+    template_name = "base/message_list.html"
+    context_object_name = "room_messages"
+
+
+class MessageUpdateView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        message = Message.objects.get(pk=self.kwargs["pk"])
+        messages = Message.objects.filter(room=message.room)
+        form = MessageForm(instance=message)
+        context = {
+            "form": form,
+            "room": message.room,
+            "participants": message.room.participants.all,
+            "messages": messages,
+        }
+        return render(request, "base/room_detail.html", context)
+
+    def post(self, request, *args, **kwargs):
+        message = Message.objects.get(pk=self.kwargs["pk"])
+        message.body = request.POST.get("body")
+        message.save()
+        return redirect(message.room.get_absolute_url())
+
+
 class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     template_name = "base/message_delete.html"
@@ -118,29 +164,3 @@ class MessageDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy("base:room_detail", kwargs={"slug": self.object.room.slug})
-
-
-class TopicListView(LoginRequiredMixin, ListView):
-    model = Topic
-    template_name = "base/topic_list.html"
-    context_object_name = "topic_list"
-
-    def get_queryset(self, *args, **kwargs):
-        query = self.request.GET.get("q")
-        if query:
-            queryset = (
-                Topic.objects.filter(name__icontains=query)
-                .annotate(total_rooms=Count("rooms"))
-                .order_by("-total_rooms", "-added_on")
-            )
-        else:
-            queryset = Topic.objects.annotate(total_rooms=Count("rooms")).order_by(
-                "-total_rooms", "-added_on"
-            )
-        return queryset
-
-
-class MessageListView(LoginRequiredMixin, ListView):
-    model = Message
-    template_name = "base/message_list.html"
-    context_object_name = "room_messages"

@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
@@ -11,7 +12,9 @@ from .forms import ProfileForm
 @login_required(login_url="account_login")
 def user_profile(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    topic_list = Topic.objects.all()
+    topic_list = Topic.objects.annotate(total_rooms=Count("rooms")).order_by(
+        "-total_rooms", "-added_on"
+    )
     room_list = user.rooms.all()
     room_messages = user.messages.all()
     context = {
