@@ -21,11 +21,14 @@ class TopicListView(LoginRequiredMixin, ListView):
             queryset = (
                 Topic.objects.filter(name__icontains=query)
                 .annotate(total_rooms=Count("rooms"))
+                .filter(total_rooms__gt=0)
                 .order_by("-total_rooms", "-added_on")
             )
         else:
-            queryset = Topic.objects.annotate(total_rooms=Count("rooms")).order_by(
-                "-total_rooms", "-added_on"
+            queryset = (
+                Topic.objects.annotate(total_rooms=Count("rooms"))
+                .filter(total_rooms__gt=0)
+                .order_by("-total_rooms", "-added_on")
             )
         return queryset
 
@@ -47,9 +50,11 @@ class RoomListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["topic_list"] = Topic.objects.annotate(
-            total_rooms=Count("rooms")
-        ).order_by("-total_rooms")[0:5]
+        context["topic_list"] = (
+            Topic.objects.annotate(total_rooms=Count("rooms"))
+            .filter(total_rooms__gt=0)
+            .order_by("-total_rooms")[0:5]
+        )
         context["room_messages"] = Message.objects.all()
         return context
 
@@ -157,10 +162,15 @@ class MessageUpdateView(LoginRequiredMixin, View):
         return redirect(message.room.get_absolute_url())
 
 
-class MessageDeleteView(LoginRequiredMixin, DeleteView):
-    model = Message
-    template_name = "base/message_delete.html"
-    context_object_name = "message"
-
-    def get_success_url(self, *args, **kwargs):
-        return reverse_lazy("base:room_detail", kwargs={"slug": self.object.room.slug})
+def message_delete_view(request, pk):
+    message = Message.objects.get(id=pk)
+    room = message.room
+    if request.method == "POST":
+        message.delete()
+        return redirect("base:room_detail", slug=room.slug)
+    total_messages = Message.objects.filter(
+        user=request.user, room=message.room
+    ).count()
+    if total_messages == 1:
+        room.participants.remove(request.user)
+    return render(request, "base/message_delete.html")

@@ -8,7 +8,8 @@ from .views import (
     RoomDeleteView,
     MessageListView,
     MessageUpdateView,
-    MessageDeleteView,
+    # MessageDeleteView,
+    message_delete_view,
 )
 
 app_name = "base"
@@ -24,7 +25,5 @@ urlpatterns = [
     path(
         "message/update/<int:pk>/", MessageUpdateView.as_view(), name="message_update"
     ),
-    path(
-        "message/delete/<int:pk>/", MessageDeleteView.as_view(), name="message_delete"
-    ),
+    path("message/delete/<int:pk>/", message_delete_view, name="message_delete"),
 ]
