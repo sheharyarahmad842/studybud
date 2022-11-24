@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": [
-            "profile",
+            # "profile",
             "email",
         ],
         "AUTH_PARAMS": {
@@ -107,6 +107,8 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SESSION_REMEMBER = True
+# Skip email form after signup with facebook
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 MIDDLEWARE = [
