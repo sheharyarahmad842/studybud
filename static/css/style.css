@@ -101,8 +101,8 @@ a {
 }
 
 .btn--main {
-  background-color: #3f4156;
-  color: #3f4156;
+  background-color: var(--color-dark);
+  color: var(--color-dark);
 }
 
 .btn:hover {
