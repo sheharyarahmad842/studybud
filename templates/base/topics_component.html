@@ -12,34 +12,18 @@
       </li>
       {% for topic in topic_list %}
         <li>
-          {% comment %} {% with topics=topic.total_rooms %} {% endcomment %}
             <a href="{% url 'base:index' %}?q={{ topic.name }}">{{ topic.name }} <span>{{ topic_list|index:forloop.counter0|get_item }}</span></a>
-          {% comment %} {% endwith %} {% endcomment %}
         </li>
       {% endfor %}
     </ul>
-    {% if total_topics > 5 %}
-      <a class="btn btn--link" href="{% url 'base:topic_list' %}">
-        More
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-          <title>chevron-down</title>
-          <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
-        </svg>
-      </a>
-  {% endif %}
+    {% if total_topics.count > 5 %}
+    <a class="btn btn--link" href="{% url 'base:topic_list' %}">
+      More
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+        <title>chevron-down</title>
+        <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+      </svg>
+    </a>
+    {% endif %}
 </div>
 
-
-
-
-
-{% comment %} <div>
-    <a href="{% url 'base:index' %}">All</a>
-</div>
-{% for topic in topic_list %}
-    <div>
-        <form method='GET' action="{% url 'base:room_list' %}">
-            <a href="{% url 'base:room_list' %}?q={{topic.name}}">{{ topic.name }}</a>
-        </form>
-    </div>
-{% endfor %} {% endcomment %}

@@ -70,8 +70,8 @@
               <p>Hosted By</p>
               <a href="{% url 'users:profile' room.host.pk %}" class="room__author">
                 <div class="avatar avatar--small">
-                  {% if user.avatar %}
-                    <img src={{ user.avatar.url }} />
+                  {% if room.host.avatar %}
+                    <img src={{ room.host.avatar.url }} />
                   {% else %}
                     <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
                   {% endif %}
@@ -92,8 +92,8 @@
                   <div class="thread__author">
                     <a href="{% url 'users:profile' message.user.pk %}" class="thread__authorInfo">
                       <div class="avatar avatar--small">
-                        {% if user.avatar %}
-                          <img src={{ user.avatar.url }} />
+                        {% if message.user.avatar %}
+                          <img src={{ message.user.avatar.url }} />
                         {% else %}
                           <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
                         {% endif %}
@@ -167,8 +167,8 @@
           {% for participant in participants %}
           <a href="{% url 'users:profile' participant.pk %}" class="participant">
             <div class="avatar avatar--medium">
-              {% if user.avatar %}
-                <img src={{ user.avatar.url }} />
+              {% if participant.avatar %}
+                <img src={{ participant.avatar.url }} />
               {% else %}
                 <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
               {% endif %}

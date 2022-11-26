@@ -55,7 +55,9 @@ class RoomListView(ListView):
             .order_by("-total_rooms", "-added_on")[:5]
         )
         context["room_messages"] = Message.objects.all()
-        context["total_topics"] = Topic.objects.count()
+        context["total_topics"] = Topic.objects.annotate(
+            total_rooms=Count("rooms")
+        ).filter(total_rooms__gt=0)
         return context
 
 
