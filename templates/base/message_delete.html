@@ -8,7 +8,7 @@
             <div class="layout__box">
                 <div class="layout__boxHeader">
                     <div class="layout__boxTitle">
-                        <a href="{{ message.room.get_absolute_url }}">
+                        <a href="{{request.META.HTTP_REFERER}}">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                                 viewBox="0 0 32 32">
                                 <title>arrow-left</title>
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="for__group">
-                            <input class="btn btn--main" type="submit" value="Confirm" />
+                            <input class="btn btn--dark" type="submit" value="Confirm" />
                         </div>
 
                     </form>

@@ -36,7 +36,7 @@ class RoomListView(ListView):
     model = Room
     template_name = "base/index.html"
     context_object_name = "room_list"
-    paginate_by = 2
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
@@ -52,9 +52,10 @@ class RoomListView(ListView):
         context["topic_list"] = (
             Topic.objects.annotate(total_rooms=Count("rooms"))
             .filter(total_rooms__gt=0)
-            .order_by("-total_rooms", "-added_on")
+            .order_by("-total_rooms", "-added_on")[:5]
         )
         context["room_messages"] = Message.objects.all()
+        context["total_topics"] = Topic.objects.count()
         return context
 
 

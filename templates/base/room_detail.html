@@ -70,7 +70,11 @@
               <p>Hosted By</p>
               <a href="{% url 'users:profile' room.host.pk %}" class="room__author">
                 <div class="avatar avatar--small">
-                  <img src={{ room.host.avatar.url }} />
+                  {% if user.avatar %}
+                    <img src={{ user.avatar.url }} />
+                  {% else %}
+                    <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
+                  {% endif %}
                 </div>
                 <span>@{{ room.host }}</span>
               </a>
@@ -88,7 +92,11 @@
                   <div class="thread__author">
                     <a href="{% url 'users:profile' message.user.pk %}" class="thread__authorInfo">
                       <div class="avatar avatar--small">
-                        <img src={{ message.user.avatar.url }} />
+                        {% if user.avatar %}
+                          <img src={{ user.avatar.url }} />
+                        {% else %}
+                          <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
+                        {% endif %}
                       </div>
                       <span>@{{ message.user }}</span>
                     </a>
@@ -147,7 +155,6 @@
           <form action="" method='POST'>
             {% csrf_token %}
             {{ form.body }}
-            {% comment %} <button type="submit" class="comment-button" style={"padding-top: 2px"}>Comment</button> {% endcomment %}
           </form>
         </div>
       </div>
@@ -160,7 +167,11 @@
           {% for participant in participants %}
           <a href="{% url 'users:profile' participant.pk %}" class="participant">
             <div class="avatar avatar--medium">
-              <img src={{ participant.avatar.url }} />
+              {% if user.avatar %}
+                <img src={{ user.avatar.url }} />
+              {% else %}
+                <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
+              {% endif %}
             </div>
             <p>
               {{ participant }}
