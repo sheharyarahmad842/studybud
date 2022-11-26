@@ -19,9 +19,8 @@ class TopicListView(LoginRequiredMixin, ListView):
         query = self.request.GET.get("q")
         if query:
             queryset = (
-                Topic.objects.filter(name__icontains=query)
-                .annotate(total_rooms=Count("rooms"))
-                .filter(total_rooms__gt=0)
+                Topic.objects.annotate(total_rooms=Count("rooms"))
+                .filter(total_rooms__gt=0, name__icontains=query)
                 .order_by("-total_rooms", "-added_on")
             )
         else:
@@ -37,7 +36,7 @@ class RoomListView(ListView):
     model = Room
     template_name = "base/index.html"
     context_object_name = "room_list"
-    paginate_by = 5
+    paginate_by = 2
 
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
@@ -53,7 +52,7 @@ class RoomListView(ListView):
         context["topic_list"] = (
             Topic.objects.annotate(total_rooms=Count("rooms"))
             .filter(total_rooms__gt=0)
-            .order_by("-total_rooms")[0:5]
+            .order_by("-total_rooms", "-added_on")
         )
         context["room_messages"] = Message.objects.all()
         return context

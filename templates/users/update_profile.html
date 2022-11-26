@@ -23,29 +23,15 @@
         <div class="layout__body">
           <form class="form" action="" method='POST' enctype="multipart/form-data">
             {% csrf_token %}
-            {% comment %} <div class="form__group">
-              <label for="profile_pic">Avatar</label>
-              <input id="profile_pic" name="profile_pic" type="file" />
-            </div> {% endcomment %}
             {% for field in form %}
               <div class="form__group">
                 <label for="username">{{ field.label }}</label>
                 {{ field }}
               </div>
             {% endfor %}
-
-            {% comment %} <div class="form__group">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="text" placeholder="E.g. john@email.com" />
-            </div>
-
-            <div class="form__group">
-              <label for="user_bio">Bio</label>
-              <textarea name="user_bio" id="user_bio" placeholder="Write about yourself..."></textarea>
-            </div> {% endcomment %}
             <div class="form__action">
               <a class="btn btn--dark" href="{% url 'base:index' %}">Cancel</a>
-              <button class="btn btn--main" type="submit">Update</button>
+              <button class="btn btn--dark" type="submit">Update</button>
             </div>
           </form>
         </div>

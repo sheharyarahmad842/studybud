@@ -59,34 +59,54 @@
         </div>
         {% include 'base/activity_component.html' %}
       </div>
-      <!-- Activities End -->
     </div>
+    <nav data-pagination>
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">«</a>
+      {% else %}
+        <a href=# disabled>«</a>
+      {% endif %}
+      <ul>
+        {% for i in page_obj.paginator.page_range %}
+          {% if page_obj.number == i %}
+            <li class=current><a href="?page={{ i }}">{{ i }}</a></li>
+          {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">»</a>
+      {% else %}
+        <a href=# disabled>»</a>
+      {% endif %}
+    </nav>
   </main>
+  <!-- Activities End -->
+  {% comment %} <div id="wrapper">      
+    <!--Active and Hoverable Pagination-->
+    <ul id="pagination">
+      {% if page_obj.has_previous %}
+        <li><a class="" href="?page={{ page_obj.previous_page_number }}">«</a></li>
+      {% else %}
+        <li><a class="" href="{% url 'base:index' %}">«</a></li>
+      {% endif %}
 
-  <div id="wrapper">      
-      <!--Active and Hoverable Pagination-->
-        <ul id="pagination">
-          {% if page_obj.has_previous %}
-            <li><a class="" href="?page={{ page_obj.previous_page_number }}">«</a></li>
-          {% else %}
-            <li><a class="" href="{% url 'base:index' %}">«</a></li>
-          {% endif %}
+      {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li><a href="?page={{ i }}" class="active">{{ i }}</a></li>
+        {% else %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
 
-          {% for i in page_obj.paginator.page_range %}
-            {% if page_obj.number == i %}
-              <li><a href="?page={{ i }}" class="active">{{ i }}</a></li>
-            {% else %}
-              <li><a href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %}
-          {% endfor %}
-
-          {% if page_obj.has_next %}
-            <li><a class="" href="?page={{ page_obj.next_page_number }}">»</a></li>
-          {% else %}
-            <li><a href="{% url 'base:index' %}">»</a></li>
-          {% endif %}
-        </ul> 
-  </div><!--wrapper-->
-
+      {% if page_obj.has_next %}
+        <li><a class="" href="?page={{ page_obj.next_page_number }}">»</a></li>
+      {% else %}
+        <li><a href="{% url 'base:index' %}">»</a></li>
+      {% endif %}
+    </ul> 
+</div>
+<!--wrapper--> {% endcomment %}
 {% endblock content %}
 

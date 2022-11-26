@@ -12,8 +12,10 @@ from .forms import ProfileForm
 @login_required(login_url="account_login")
 def user_profile(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    topic_list = Topic.objects.annotate(total_rooms=Count("rooms")).order_by(
-        "-total_rooms", "-added_on"
+    topic_list = (
+        Topic.objects.annotate(total_rooms=Count("rooms"))
+        .filter(total_rooms__gt=0)
+        .order_by("-total_rooms", "-added_on")
     )
     room_list = user.rooms.all()
     room_messages = user.messages.all()
