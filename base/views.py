@@ -92,7 +92,7 @@ class RoomCreateView(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         super(RoomCreateView, self).post(request, *args, **kwargs)
         topic_name = request.POST.get("topic").capitalize()
-        topic, created = Topic.objects.get_or_create(name=topic_name)
+        topic = Topic.objects.get_or_create(name=topic_name)[0]
         name = request.POST.get("name")
         description = request.POST.get("description")
         Room.objects.create(
@@ -122,7 +122,7 @@ class RoomUpdateView(LoginRequiredMixin, UpdateView):
         super(RoomUpdateView, self).post(request, *args, **kwargs)
         room = self.object
         topic_name = request.POST.get("topic").capitalize()
-        topic, created = Topic.objects.get_or_create(name=topic_name)
+        topic = Topic.objects.get_or_create(name=topic_name)[0]
         room.name = request.POST.get("name")
         room.topic = topic
         room.slug = slugify(room.name)

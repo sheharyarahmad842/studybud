@@ -15,15 +15,19 @@ def user_profile(request, pk):
     topic_list = (
         Topic.objects.annotate(total_rooms=Count("rooms"))
         .filter(total_rooms__gt=0)
-        .order_by("-total_rooms", "-added_on")
+        .order_by("-total_rooms", "-added_on")[:5]
     )
     room_list = user.rooms.all()
     room_messages = user.messages.all()
+    total_topics = Topic.objects.annotate(total_rooms=Count("rooms")).filter(
+        total_rooms__gt=0
+    )
     context = {
         "user": user,
         "room_list": room_list,
         "room_messages": room_messages,
         "topic_list": topic_list,
+        "total_topics": total_topics,
     }
     return render(request, "users/profile.html", context)
 
