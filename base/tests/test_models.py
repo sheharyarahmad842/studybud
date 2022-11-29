@@ -11,7 +11,7 @@ class TestModels(TestCase):
         cls.host = get_user_model().objects.create_user(
             username="testuser", email="testuser@email.com", password="9a8b7c6d"
         )
-        cls.topic = Topic.objects.create(host=cls.host, name="python")
+        cls.topic = Topic.objects.create(name="python")
         cls.room = Room.objects.create(
             host=cls.host,
             topic=cls.topic,

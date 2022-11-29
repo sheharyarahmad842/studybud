@@ -10,7 +10,7 @@ class TestForms(TestCase):
         cls.host = get_user_model().objects.create_user(
             username="test123", email="test123@email.com", password="9a8b7c6d"
         )
-        cls.topic = Topic.objects.create(host=cls.host, name="Python")
+        cls.topic = Topic.objects.create(name="Python")
 
     def test_room_form_is_valid(self):
 
@@ -27,7 +27,7 @@ class TestForms(TestCase):
     def test_room_form_no_data(self):
         form = RoomForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 2)
+        self.assertEqual(len(form.errors), 2)
 
     def test_message_form_is_valid(self):
         form = MessageForm(
@@ -41,4 +41,4 @@ class TestForms(TestCase):
     def test_message_form_no_data(self):
         form = MessageForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 1)
+        self.assertEqual(len(form.errors), 1)
