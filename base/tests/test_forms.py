@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 from base.forms import RoomForm, MessageForm
 from base.models import Topic
 
@@ -7,9 +6,6 @@ from base.models import Topic
 class TestForms(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.host = get_user_model().objects.create_user(
-            username="test123", email="test123@email.com", password="9a8b7c6d"
-        )
         cls.topic = Topic.objects.create(name="Python")
 
     def test_room_form_is_valid(self):

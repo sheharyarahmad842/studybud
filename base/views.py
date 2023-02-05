@@ -1,9 +1,8 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View, ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.postgres.search import SearchVector
 from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from .models import Room, Topic, Message
@@ -41,9 +40,9 @@ class RoomListView(ListView):
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
         if query:
-            return Room.objects.annotate(
-                search=SearchVector("topic__name", "host__username", "name"),
-            ).filter(search=query)
+            return Room.objects.filter(
+                Q(topic__name=query) | Q(host__username=query) | Q(name=query)
+            )
         else:
             return Room.objects.all()
 
