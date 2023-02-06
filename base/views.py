@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View, ListView
@@ -41,7 +42,7 @@ class RoomListView(ListView):
         query = self.request.GET.get("q")
         if query:
             return Room.objects.filter(
-                Q(topic__name=query) | Q(host__username=query) | Q(name=query)
+                Q(topic__name=query) | Q(host__user__username=query) | Q(name=query)
             )
         else:
             return Room.objects.all()
@@ -63,13 +64,13 @@ class RoomListView(ListView):
 class RoomDetailView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         room = get_object_or_404(Room, slug=self.kwargs["slug"])
-        messages = Message.objects.filter(room=room)
+        room_messages = Message.objects.filter(room=room)
         participants = room.participants.all()
         form = MessageForm()
         context = {
             "room": room,
             "form": form,
-            "messages": messages,
+            "room_messages": room_messages,
             "participants": participants,
         }
         return render(request, "base/room_detail.html", context)
@@ -80,7 +81,8 @@ class RoomDetailView(LoginRequiredMixin, View):
             user=request.user, room=room, body=request.POST.get("body")
         )
         message.save()
-        room.participants.add(request.user)
+        messages.success(request, "Your message was added successfully.")
+        room.participants.add(request.user.profile)
         return redirect(room.get_absolute_url())
 
 
@@ -95,7 +97,7 @@ class RoomCreateView(LoginRequiredMixin, CreateView):
         name = request.POST.get("name")
         description = request.POST.get("description")
         Room.objects.create(
-            host=request.user, topic=topic, name=name, description=description
+            host=request.user.profile, topic=topic, name=name, description=description
         )
         return redirect("base:index")
 
@@ -146,13 +148,13 @@ class MessageListView(LoginRequiredMixin, ListView):
 class MessageUpdateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         message = Message.objects.get(pk=self.kwargs["pk"])
-        messages = Message.objects.filter(room=message.room)
+        room_messages = Message.objects.filter(room=message.room)
         form = MessageForm(instance=message)
         context = {
             "form": form,
             "room": message.room,
             "participants": message.room.participants.all,
-            "messages": messages,
+            "room_messages": room_messages,
         }
         return render(request, "base/room_detail.html", context)
 
@@ -160,6 +162,7 @@ class MessageUpdateView(LoginRequiredMixin, View):
         message = Message.objects.get(pk=self.kwargs["pk"])
         message.body = request.POST.get("body")
         message.save()
+        messages.success(request, "Your message was updated successfully.")
         return redirect(message.room.get_absolute_url())
 
 
@@ -168,10 +171,11 @@ def message_delete_view(request, pk):
     room = message.room
     if request.method == "POST":
         message.delete()
+        messages.error(request, "Your message was deleted successfully.")
         return redirect("base:room_detail", slug=room.slug)
     total_messages = Message.objects.filter(
         user=request.user, room=message.room
     ).count()
     if total_messages == 1:
-        room.participants.remove(request.user)
+        room.participants.remove(request.user.profile)
     return render(request, "base/message_delete.html")

@@ -67,3 +67,10 @@ if (photoInput)
 // Scroll to Bottom
 const conversationThread = document.querySelector(".room__box");
 if (conversationThread) conversationThread.scrollTop = conversationThread.scrollHeight;
+
+
+// Alert Box
+setTimeout(() => {
+  const box = document.getElementById('box');
+  box.style.display = 'none';
+}, 5000); 

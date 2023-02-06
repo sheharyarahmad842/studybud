@@ -35,33 +35,30 @@ class RoomSerializer(serializers.ModelSerializer):
         return room.messages.count()
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    rooms = serializers.HyperlinkedRelatedField(
-        many=True,
-        view_name="api:room_detail",
-        read_only=True,
-    )
-    topics = serializers.HyperlinkedRelatedField(
-        many=True,
-        view_name="api:topic_detail",
-        read_only=True,
-    )
-    messages = serializers.HyperlinkedRelatedField(
-        many=True, view_name="api:message_detail", read_only=True
-    )
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     rooms = serializers.HyperlinkedRelatedField(
+#         many=True,
+#         view_name="api:room_detail",
+#         read_only=True,
+#     )
+#     topics = serializers.HyperlinkedRelatedField(
+#         many=True,
+#         view_name="api:topic_detail",
+#         read_only=True,
+#     )
+#     messages = serializers.HyperlinkedRelatedField(
+#         many=True, view_name="api:message_detail", read_only=True
+#     )
 
-    class Meta:
-        model = get_user_model()
-        fields = [
-            "id",
-            "username",
-            "email",
-            "bio",
-            "rooms",
-            "topics",
-            "messages",
-            "avatar",
-        ]
+#     class Meta:
+#         model = get_user_model()
+#         fields = [
+#             "id",
+#             "username",
+#             "email",
+#             "rooms",
+#             "messages",
+#         ]
 
 
 class TopicSerializer(serializers.HyperlinkedModelSerializer):

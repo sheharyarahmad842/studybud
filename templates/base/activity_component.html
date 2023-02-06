@@ -1,13 +1,9 @@
 {% for message in room_messages %}
   <div class="activities__box">
     <div class="activities__boxHeader roomListRoom__header">
-      <a href="{% url 'users:profile' message.user.pk %}" class="roomListRoom__author">
+      <a href="{% url 'users:profile' message.user.profile.pk %}" class="roomListRoom__author">
         <div class="avatar avatar--small">
-          {% if message.user.avatar %}
-            <img src={{ message.user.avatar.url }} />
-          {% else %}
-            <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
-          {% endif %}
+            <img src={{ message.user.profile.avatar.url }} alt="{{ message.user.name }}'s Profile Photo"/>
         </div>
         <p>
           @{{ message.user.username }}
@@ -38,24 +34,4 @@
 
 
 
-  {% comment %} <div class="card mb-2">
-    <div class="card-header">
-      <span>
-        <a href="{% url 'users:profile' message.user.pk %}">@{{ message.user }}</a>
-        replied to</span>
-      <span class="fw-bold">"{{ message.room }}"</span>
-      <span> {{ message.created_on|timesince }} ago</span>
-    </div>
-    <div class="card-body">
-      <p class="card-text">{{ message.body|truncatewords:20 }}</p>
-      {% if request.user == message.user or user.is_superuser %}
-      <a
-        href="{% url 'base:message_delete' message.pk %}"
-        class="btn btn-outline-danger"
-      >
-        Delete
-      </a>
-      {% endif %}
-    </div>
-  </div>
-{% endfor %} {% endcomment %}
+  

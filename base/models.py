@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from users.models import Profile
+
+User = get_user_model()
 
 
 class Topic(models.Model):
@@ -42,7 +45,7 @@ class Room(models.Model):
 
 
 class Message(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="messages")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages")
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="messages")
     body = models.CharField("Add a Comment", max_length=500)
     updated_on = models.DateTimeField(auto_now=True)

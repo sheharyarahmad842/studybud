@@ -13,10 +13,19 @@
 
   <body>
     {% include '_navbar.html' %}
-
+    
+    {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" id="box" role="alert">
+            {{ message }}
+          </div>
+          {% endfor %}
+      </ul>
+    {% endif %}
+    
     {% block content %}{% endblock content %}
     <script src="{% static 'js/script.js' %}"></script>
-
   </body>
 </html>
 

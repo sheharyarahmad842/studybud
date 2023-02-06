@@ -12,10 +12,18 @@ User = get_user_model()
 class UserAdmin(BaseUserAdmin):
     """Shows the admin page for users"""
 
-    list_display = ["email", "name", "is_active", "is_staff", "last_login"]
+    list_display = ["email", "username", "name", "is_active", "is_staff", "last_login"]
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        (_("Personal Details"), {"fields": ("name",)}),
+        (
+            _("Personal Details"),
+            {
+                "fields": (
+                    "username",
+                    "name",
+                )
+            },
+        ),
         (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser")}),
         (_("Important Dates"), {"fields": ("last_login",)}),
     )
@@ -28,6 +36,7 @@ class UserAdmin(BaseUserAdmin):
                     "email",
                     "password1",
                     "password2",
+                    "username",
                     "name",
                     "is_active",
                     "is_staff",
@@ -43,7 +52,7 @@ class UserAdmin(BaseUserAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     """Shows the admin page for profiles"""
 
-    list_display = ["name", "email", "avatar", "created_on", "modified_on"]
+    list_display = ["name", "username", "email", "avatar", "created_on", "modified_on"]
     raw_id_fields = ["user"]
 
 

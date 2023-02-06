@@ -15,31 +15,27 @@
         <div class="profile">
           <div class="profile__avatar">
             <div class="avatar avatar--large active">
-              {% if user.avatar %}
-                <img src={{ user.avatar.url }} />
-              {% else %}
-                <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
-              {% endif %}
+                <img src={{ user_profile.avatar.url }} alt={{ user_profile.name }}"'s profile"/>
             </div>
           </div>
           <div class="profile__info">
-            <h3>{{ user.username }}</h3>
-            <p>@ {{user.username }} </p>
-            {% if request.user == user %}
-            <a href="{% url 'users:update_profile' user.pk %}" class="btn btn--main btn--pill">Edit Profile</a>
+            <h3>{{ user_profile.name }}</h3>
+            <p>@ {{ user_profile.username }} </p>
+            {% if request.user == user_profile.user %}
+              <a href="{% url 'users:update_profile' user_profile.id %}" class="btn btn--main btn--pill">Edit Profile</a>
             {% endif %}
           </div>
           <div class="profile__about">
             <h3>About</h3>
             <p>
-              {{ user.bio }}
+              {{ user_profile.bio }}
             </p>
           </div>
         </div>
 
         <div class="roomList__header">
           <div>
-            <h2>Study Rooms Hosted by {{ user.username }}</a>
+            <h2>Study Rooms Hosted by {{ user_profile.name }}</a>
             </h2>
           </div>
         </div>
