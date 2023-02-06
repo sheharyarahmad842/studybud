@@ -21,13 +21,9 @@
       <!-- Logged In -->
       {% if request.user.is_authenticated %}
         <div class="header__user">
-          <a href="{% url 'users:profile' user.id %}">
+          <a href="{% url 'users:profile' request.user.profile.id %}">
             <div class="avatar avatar--medium active">
-              {% if request.user.avatar %}
-                <img src={{ request.user.avatar.url }} />
-              {% else %}
-                <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
-              {% endif %}
+                <img src={{ request.user.profile.avatar.url }} />
             </div>
             <p>{{ request.user }} <span>@{{ request.user }}</span></p>
           </a>
@@ -40,7 +36,7 @@
         </div>
 
       <div class="dropdown-menu">
-        <a href="{% url 'users:update_profile' request.user.pk %}" class="dropdown-link"
+        <a href="{% url 'users:update_profile' request.user.profile.id  %}" class="dropdown-link"
           ><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
             <title>tools</title>
             <path

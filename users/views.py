@@ -1,17 +1,17 @@
 from django.db.models import Count
 from django.shortcuts import render
-from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from base.models import Topic
+from users.models import Profile
 from .forms import ProfileForm
 
 # Create your views here.
 @login_required(login_url="account_login")
 def user_profile(request, pk):
-    user = get_user_model().objects.get(pk=pk)
+    user = Profile.objects.get(pk=pk)
     topic_list = (
         Topic.objects.annotate(total_rooms=Count("rooms"))
         .filter(total_rooms__gt=0)
@@ -33,10 +33,9 @@ def user_profile(request, pk):
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = get_user_model()
+    model = Profile
     form_class = ProfileForm
     template_name = "users/update_profile.html"
-    login_url = "account_login"
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy("users:profile", kwargs={"pk": self.object.pk})

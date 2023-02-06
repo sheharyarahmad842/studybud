@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+from users.models import Profile
 
 
 class Topic(models.Model):
@@ -13,16 +13,14 @@ class Topic(models.Model):
 
 
 class Room(models.Model):
-    host = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="rooms"
-    )
+    host = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="rooms")
     topic = models.ForeignKey(
         Topic, on_delete=models.SET_NULL, related_name="rooms", null=True
     )
     name = models.CharField(max_length=200)
     slug = models.SlugField()
     participants = models.ManyToManyField(
-        get_user_model(), related_name="participants", blank=True
+        Profile, related_name="participants", blank=True
     )
     description = models.TextField(null=True, blank=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -44,9 +42,7 @@ class Room(models.Model):
 
 
 class Message(models.Model):
-    user = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="messages"
-    )
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="messages")
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="messages")
     body = models.CharField("Add a Comment", max_length=500)
     updated_on = models.DateTimeField(auto_now=True)
