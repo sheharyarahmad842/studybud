@@ -1,4 +1,3 @@
-env
-.git
-.gitignore
-.docker
+fly.toml
+.git/
+*.sqlite3

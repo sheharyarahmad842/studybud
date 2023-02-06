@@ -21,7 +21,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ["serene-reaches-80012.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["studybud.fly.dev", "localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -215,6 +215,11 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://studybud.fly.dev",
+    "http://studybud.fly.dev",
+]
 
 # JWT Settings
 SIMPLE_JWT = {

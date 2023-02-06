@@ -166,3 +166,6 @@ media/
 
 # Docker production file
 docker-compose-prod.yml
+
+# Fly
+fly.toml
