@@ -54,7 +54,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 # Create your models here.
 class Profile(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, max_length=36
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.TextField(null=True, blank=True)
     avatar = CloudinaryField(

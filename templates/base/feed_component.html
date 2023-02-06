@@ -1,13 +1,9 @@
 {% for room in room_list %}
     <div class="roomListRoom">
         <div class="roomListRoom__header">
-        <a href="{% url 'users:profile' room.host.pk %}" class="roomListRoom__author">
+        <a href="{% url 'users:profile' room.host.profile.pk %}" class="roomListRoom__author">
             <div class="avatar avatar--small">
-                {% comment %} {% if room.host.avatar %} {% endcomment %}
-                <img src={{ room.host.avatar.url }} />
-                {% comment %} {% else %}
-                    <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" /> {% endcomment %}
-                {% comment %} {% endif %} {% endcomment %}
+                <img src={{ room.host.profile.avatar.url }} alt="{{ room.host.username }}'s Profile Photo" />
             </div>
             <span>@{{ room.host.username }}</span>
         </a>

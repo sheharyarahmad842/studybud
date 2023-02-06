@@ -17,7 +17,7 @@ def user_profile(request, pk):
         .filter(total_rooms__gt=0)
         .order_by("-total_rooms", "-added_on")[:5]
     )
-    room_list = user_profile.rooms.all()
+    room_list = user_profile.user.rooms.all()
     room_messages = user_profile.user.messages.all()
     total_topics = Topic.objects.annotate(total_rooms=Count("rooms")).filter(
         total_rooms__gt=0

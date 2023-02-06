@@ -1206,7 +1206,7 @@ a {
   background-color: var(--color-dark-light);
   position: absolute;
   bottom: 37px;
-  right: 30px;
+  right: 34px;
   float: right;
   border: none;
   cursor: pointer;
@@ -1349,7 +1349,6 @@ a {
   .layout__box {
     margin-top: 100px;
     margin-bottom: 100px;
-    overflow: scroll;
   }
 }
 @media (min-width: 350px) {

@@ -16,7 +16,7 @@ class Topic(models.Model):
 
 
 class Room(models.Model):
-    host = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="rooms")
+    host = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rooms")
     topic = models.ForeignKey(
         Topic, on_delete=models.SET_NULL, related_name="rooms", null=True
     )

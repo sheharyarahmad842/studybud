@@ -68,11 +68,11 @@
             </div>
             <div class="room__hosted">
               <p>Hosted By</p>
-              <a href="{% url 'users:profile' room.host.pk %}" class="room__author">
+              <a href="{% url 'users:profile' room.host.profile.pk %}" class="room__author">
                 <div class="avatar avatar--small">
-                  <img src={{ room.host.avatar.url }} alt="{{ room.host.user.name }}'s Profile Photo"/>
+                  <img src={{ room.host.profile.avatar.url }} alt="{{ room.host.user.name }}'s Profile Photo"/>
                 </div>
-                <span>@{{ room.host.user.username }}</span>
+                <span>@{{ room.host.username }}</span>
               </a>
             </div>
             <div class="room__details">
@@ -90,7 +90,7 @@
                       <div class="avatar avatar--small">
                         <img src={{ message.user.profile.avatar.url }} alt="{{ message.user.name }}'s Profile Photo"/>
                       </div>
-                      <span>@{{ message.user }}</span>
+                      <span>@{{ message.user.username }}</span>
                     </a>
                     <span class="thread__date">{{ message.created_on| timesince}} ago</span>
                   </div>
@@ -144,13 +144,15 @@
           </div>
         </div>
         <div class="room__message">
-          <form action="" method='POST'>
-            {% csrf_token %}
-            {{ form.body }}
-            <button type="submit" class="message-btn">
-              <i class="fa fa-paper-plane" aria-hidden="true"></i>
-            </button>
-          </form>
+          {% if request.user != room.host %}
+            <form action="" method='POST'>
+              {% csrf_token %}
+              {{ form.body }}
+              <button type="submit" class="message-btn">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+              </button>
+            </form>
+          {% endif %}
         </div>
       </div>
       <!-- Room End -->

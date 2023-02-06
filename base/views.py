@@ -42,7 +42,7 @@ class RoomListView(ListView):
         query = self.request.GET.get("q")
         if query:
             return Room.objects.filter(
-                Q(topic__name=query) | Q(host__user__username=query) | Q(name=query)
+                Q(topic__name=query) | Q(host__username=query) | Q(name=query)
             )
         else:
             return Room.objects.all()
@@ -97,7 +97,7 @@ class RoomCreateView(LoginRequiredMixin, CreateView):
         name = request.POST.get("name")
         description = request.POST.get("description")
         Room.objects.create(
-            host=request.user.profile, topic=topic, name=name, description=description
+            host=request.user, topic=topic, name=name, description=description
         )
         return redirect("base:index")
 
