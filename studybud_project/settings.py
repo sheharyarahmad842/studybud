@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     # Media Cloudinary
     "cloudinary",
-    "cloudinary_storage",
     # Local
     "users.apps.UsersConfig",
     "base.apps.BaseConfig",
@@ -86,13 +85,20 @@ SOCIALACCOUNT_PROVIDERS = {
         "VERIFIED_EMAIL": False,
         "VERSION": "v13.0",
     },
+    "github": {
+        "SCOPE": [
+            "user",
+            "repo",
+            "read:org",
+        ],
+    },
 }
 
 ACCOUNT_FORMS = {
     "signup": "users.forms.CustomSignupForm",
 }
 
-AUTH_USER_MODEL = "users.CustomUser"
+AUTH_USER_MODEL = "users.User"
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
