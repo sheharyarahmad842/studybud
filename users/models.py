@@ -35,6 +35,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """Defines custom user model"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=255)
@@ -54,9 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 # Create your models here.
 class Profile(models.Model):
-    id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False, max_length=36
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.TextField(null=True, blank=True)
     avatar = CloudinaryField(

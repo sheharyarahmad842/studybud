@@ -252,14 +252,14 @@ EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 
 # Django debug toolbar configuration for docker
-# if DEBUG:
-#     import socket  # only if you haven't already imported this
+if DEBUG:
+    import socket  # only if you haven't already imported this
 
-#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-#     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
-#         "127.0.0.1",
-#         "10.0.2.2",
-#     ]
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]
 
 
 # Deployment settings

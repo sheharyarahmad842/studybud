@@ -1213,6 +1213,14 @@ a {
   color: white;
 }
 
+.form-error {
+  color: #dc4c64;
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.5;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 /* Alerts */
 .alert {
   width: 100%;
@@ -1347,7 +1355,7 @@ a {
 
 @media (max-height: 750px) {
   .layout__box {
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: 100px;
   }
 }
