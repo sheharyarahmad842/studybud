@@ -55,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 # Create your models here.
 class Profile(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.TextField(null=True, blank=True)
     avatar = CloudinaryField(
@@ -73,7 +73,7 @@ class Profile(models.Model):
         return f"{self.user.name}'s profile"
 
     def get_absolute_url(self):
-        return reverse("users:profile", kwargs={"pk": self.pk})
+        return reverse("users:profile", kwargs={"pk": self.id})
 
     @property
     def name(self):

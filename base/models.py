@@ -23,7 +23,7 @@ class Room(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField()
     participants = models.ManyToManyField(
-        Profile, related_name="participants", blank=True
+        User, related_name="participants", blank=True
     )
     description = models.TextField(null=True, blank=True)
     updated_on = models.DateTimeField(auto_now=True)

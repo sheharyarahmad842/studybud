@@ -42,7 +42,7 @@ class RoomListView(ListView):
         query = self.request.GET.get("q")
         if query:
             return Room.objects.filter(
-                Q(topic__name=query) | Q(host__username=query) | Q(name=query)
+                Q(topic__name__icontains=query) | Q(host__username__icontains=query) | Q(name__icontains=query)
             )
         else:
             return Room.objects.all()
@@ -82,7 +82,7 @@ class RoomDetailView(LoginRequiredMixin, View):
         )
         message.save()
         messages.success(request, "Your message was added successfully.")
-        room.participants.add(request.user.profile)
+        room.participants.add(request.user)
         return redirect(room.get_absolute_url())
 
 
@@ -129,6 +129,7 @@ class RoomUpdateView(LoginRequiredMixin, UpdateView):
         room.slug = slugify(room.name)
         room.description = request.POST.get("description")
         room.save()
+        messages.success(request, "Your room was updated successfully.")
         return redirect(self.object.get_absolute_url())
 
 
@@ -136,7 +137,10 @@ class RoomDeleteView(LoginRequiredMixin, DeleteView):
     model = Room
     template_name = "base/room_delete.html"
     context_object_name = "room"
-    success_url = reverse_lazy("base:index")
+
+    def get_success_url(self):
+        messages.error(self.request, "Your room was deleted successfully.")
+        return reverse_lazy("base:index")
 
 
 class MessageListView(LoginRequiredMixin, ListView):
@@ -177,5 +181,5 @@ def message_delete_view(request, pk):
         user=request.user, room=message.room
     ).count()
     if total_messages == 1:
-        room.participants.remove(request.user.profile)
+        room.participants.remove(request.user)
     return render(request, "base/message_delete.html")

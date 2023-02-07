@@ -20,7 +20,7 @@
             <h3>Study Room</h3>
           </div>
 
-          {% if request.user.profile == room.host  %}
+          {% if request.user == room.host  %}
           <div class="room__topRight">
             <a href="{% url 'base:room_update' room.slug %}">
               <svg
@@ -162,13 +162,13 @@
         <h3 class="participants__top">Participants <span>({{ participants.count }} Joined)</span></h3>
         <div class="participants__list scroll">
           {% for participant in participants %}
-          <a href="{% url 'users:profile' participant.pk %}" class="participant">
+          <a href="{% url 'users:profile' participant.profile.pk %}" class="participant">
             <div class="avatar avatar--medium">
-                <img src={{ participant.avatar.url }} alt="{{ participant.user.name }}'s Profile"/>
+                <img src={{ participant.profile.avatar.url }} alt="{{ participant.name }}'s Profile"/>
             </div>
             <p>
-              {{ participant.user.name }}
-              <span>@{{ participant.user.username }}</span>
+              {{ participant.name }}
+              <span>@{{ participant.username }}</span>
             </p>
           </a>
           {% endfor %}

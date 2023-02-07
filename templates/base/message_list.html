@@ -32,15 +32,11 @@
           <div class="activities__box">
             <div class="activities__boxHeader roomListRoom__header">
               <a
-                href="{% url 'users:profile' message.user.pk %}"
+                href="{% url 'users:profile' message.user.profile.pk %}"
                 class="roomListRoom__author"
               >
                 <div class="avatar avatar--small">
-                  {% if user.avatar %}
-                    <img src={{ user.avatar.url }} />
-                  {% else %}
-                    <img src="https://res.cloudinary.com/dkcf3j3km/image/upload/v1669447116/avatar_txaab5.svg" />
-                  {% endif %}
+                  <img src={{ message.user.profile.avatar.url }} alt="{{ message.user.name }}'s Profile"/>
                 </div>
                 <p>
                   @{{ message.user.username }}
