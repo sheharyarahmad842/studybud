@@ -167,8 +167,8 @@ WSGI_APPLICATION = "studybud_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3"),
-    # "default": dj_database_url.parse(env.str("DATABASE_URL"), conn_max_age=600),
+    # "default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3"),
+    "default": dj_database_url.parse(env.str("DATABASE_URL"), conn_max_age=600),
 }
 
 # Password validation
