@@ -22,7 +22,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ["studybud.fly.dev", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["studybud-si9s.onrender.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -219,8 +219,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://studybud.fly.dev",
-    "http://studybud.fly.dev",
+    "https://studybud-si9s.onrender.com",
+    "http://studybud-si9s.onrender.com",
 ]
 
 # JWT Settings
