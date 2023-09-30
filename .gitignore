@@ -170,6 +170,9 @@ docker-compose-prod.
 # VS Code
 .vscode/
 
+# Static files
+staticfiles/
+
 # Fly related stuff
 fly.toml
 .dockerignore
