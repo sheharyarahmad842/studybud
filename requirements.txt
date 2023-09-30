@@ -9,7 +9,7 @@ coreschema==0.0.4
 cryptography==37.0.4
 defusedxml==0.7.1
 dj-database-url==1.2.0
-dj-email-url==1.0.6
+# dj-email-url==1.0.6
 Django==4.1.1
 django-allauth==0.51.0
 django-cache-url==3.4.4
