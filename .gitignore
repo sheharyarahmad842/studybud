@@ -52,6 +52,9 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Shell Scripts
+*.sh
+
 # Translations
 *.mo
 *.pot
@@ -165,7 +168,12 @@ cython_debug/
 media/
 
 # Docker production file
-docker-compose-prod.yml
+docker-compose-prod.
 
-# Fly
+# VS Code
+.vscode/
+
+# Fly related stuff
 fly.toml
+.dockerignore
+Dockerfile

@@ -1,3 +1,4 @@
+import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.facebook",
+    # "allauth.socialaccount.providers.facebook",
     "rest_framework",
     "corsheaders",
     "debug_toolbar",
@@ -65,27 +66,27 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     },
-    "facebook": {
-        "METHOD": "oauth2",
-        "SDK_URL": "//connect.facebook.net/{locale}/sdk.js",
-        "SCOPE": ["email", "public_profile"],
-        "AUTH_PARAMS": {"auth_type": "reauthenticate"},
-        "INIT_PARAMS": {"cookie": True},
-        "FIELDS": [
-            "id",
-            "first_name",
-            "last_name",
-            "middle_name",
-            "name",
-            "name_format",
-            "picture",
-            "short_name",
-        ],
-        "EXCHANGE_TOKEN": True,
-        "LOCALE_FUNC": "path.to.callable",
-        "VERIFIED_EMAIL": False,
-        "VERSION": "v13.0",
-    },
+    # "facebook": {
+    #     "METHOD": "oauth2",
+    #     "SDK_URL": "//connect.facebook.net/{locale}/sdk.js",
+    #     "SCOPE": ["email", "public_profile"],
+    #     "AUTH_PARAMS": {"auth_type": "reauthenticate"},
+    #     "INIT_PARAMS": {"cookie": True},
+    #     "FIELDS": [
+    #         "id",
+    #         "first_name",
+    #         "last_name",
+    #         "middle_name",
+    #         "name",
+    #         "name_format",
+    #         "picture",
+    #         "short_name",
+    #     ],
+    #     "EXCHANGE_TOKEN": True,
+    #     "LOCALE_FUNC": "path.to.callable",
+    #     "VERIFIED_EMAIL": False,
+    #     "VERSION": "v13.0",
+    # },
     "github": {
         "SCOPE": [
             "user",
@@ -166,7 +167,8 @@ WSGI_APPLICATION = "studybud_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3"),
+    # "default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3"),
+    "default": dj_database_url.parse(env.str("DATABASE_URL"), conn_max_age=600),
 }
 
 # Password validation

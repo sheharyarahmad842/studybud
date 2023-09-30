@@ -65,9 +65,9 @@
               <p>Haven't signed up yet?</p>
               <a href="{% url 'account_signup' %}" class="btn btn--link margin_bottom">Sign Up</a>
               <p class="margin_bottom">or sign up with:</p>
-              <a class="btn btn-link btn-floating mx-1" href="{% provider_login_url "facebook" %}">
+              {% comment %} <a class="btn btn-link btn-floating mx-1" href="{% provider_login_url "facebook" %}">
                 <i class="fab fa-facebook-f"></i>
-              </a>
+              </a> {% endcomment %}
               <a class="btn btn-link btn-floating mx-1" href="{% provider_login_url 'google' %}">
                 <i class="fab fa-google"></i>
               </a>
