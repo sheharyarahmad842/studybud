@@ -284,6 +284,12 @@ cloudinary.config(
 )
 
 
+# Superuser Settings
+SUPERUSER_EMAIL = env.str("SUPERUSER_EMAIL")
+SUPERUSER_USERNAME = env.str("SUPERUSER_USERNAME")
+SUPERUSER_NAME = env.str("SUPERUSER_NAME")
+SUPERUSER_PASSWORD = env.str("SUPERUSER_PASSWORD")
+
 # API Documentation Settings
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
